@@ -66,8 +66,11 @@ public class StudentServiceImpl implements StudentService {
     public String updateContact(ContactInfo contactInfo) {
         int id = contactInfo.getContractId();
         Optional<ContactInfo> getContact = contanctRepo.findById(id);
-        BeanUtils.copyProperties(contactInfo, getContact.get());
-        contanctRepo.save(getContact.get());
-        return "ContactInfo Update Successful";
+        if(getContact.isPresent()){
+            BeanUtils.copyProperties(contactInfo, getContact.get());
+            contanctRepo.save(getContact.get());
+            return "ContactInfo Update Successful";
+        } else return "No Entity Found";
+
     }
 }
